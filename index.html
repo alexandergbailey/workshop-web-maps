@@ -44,14 +44,53 @@
       <h1>World domination coming soon</h1>
       <h2>Tim's is going global! Use the map below to find a location near you.</h2>
       <div id='map' style='width: 400px; height: 300px;'></div>
-<script>
-  mapboxgl.accessToken = 'pk.eyJ1Ijoic3RvcGljMTMiLCJhIjoiY2pnYmQ1Y3llMXl0ejJ4cWpsbmJrMWtmdiJ9.R1lW4rNrIfO4m1mBx18LNA';
-  var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/stopic13/cjgbgrd0n4mos2rnihvtw2ipr'
-  });
+      <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleGIxIiwiYSI6ImNqZ2UwbHp0MzIxbHEzM21xczh1ajd4eTcifQ.MgqwloqBDgHGibmF8H4J_w';
+      var map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/streets-v9'
+      });
+      var geojson = {
+        type: 'FeatureCollection',
+        features: [{
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [-72.288424, 43.703301]
+          },
+          properties: {
+            title: "Tim's Pizza Place",
+            description: 'Hanover, NH'
+          }
+        },
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [-7.288424, 40.703301]
+          },
+          properties: {
+            title: 'Second Pizza Shop Location',
+            description: 'Up to you'
+          }
+        }]
+      };
+      // add markers to map
+      geojson.features.forEach(function(marker) {
 
-</script>
+        // create a HTML element for each feature
+        var el = document.createElement('div');
+        el.className = 'marker';
+
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+          .setLngLat(marker.geometry.coordinates)
+          .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+          .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+          .addTo(map);
+      });
+      </script>
+      <div id='map' style='width: 400px; height: 300px;'></div>
     </div>
   </div>
 
